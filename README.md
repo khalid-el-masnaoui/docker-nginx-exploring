@@ -19,13 +19,13 @@ mkdir logs
 docker build . -t cs-nginx-dev -f Dockerfile.dev 
 
 #developement image build multi-stage
-docker build . -t cs-nginx-multistage-dev -f Dockerfile --target dev
+docker build . -t cs-nginx-dev-multistage -f Dockerfile --target dev
 
 #production image build
 docker build . -t cs-nginx-prod -f Dockerfile.prod 
 
 #production image build multi-stage
-docker build . -t cs-nginx-multistage-prod -f Dockerfile --target prod
+docker build . -t cs-nginx-prod-multistage -f Dockerfile --target prod
 ```
 
 This will create the custom nginx image and pull-in/install the necessary dependencies.
