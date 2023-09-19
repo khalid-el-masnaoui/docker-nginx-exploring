@@ -12,6 +12,8 @@ build the image.
 
 ```sh
 cd docker-nginx-exploring
+#create logs directory since it is mounted to the container
+mkdir logs
 #developement image build
 docker build . -t cs-nginx-dev -f Dockerfile.dev 
 docker build . -t cs-nginx-dev -f Dockerfile --target=dev
