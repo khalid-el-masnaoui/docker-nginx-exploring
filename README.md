@@ -14,12 +14,18 @@ build the image.
 cd docker-nginx-exploring
 #create logs directory since it is mounted to the container
 mkdir logs
+
 #developement image build
 docker build . -t cs-nginx-dev -f Dockerfile.dev 
-docker build . -t cs-nginx-multistage-dev -f Dockerfile --target=dev
+
+#developement image build multi-stage
+docker build . -t cs-nginx-multistage-dev -f Dockerfile --target dev
+
 #production image build
 docker build . -t cs-nginx-prod -f Dockerfile.prod 
-docker build . -t cs-nginx-multistage-prod -f Dockerfile --target=prod
+
+#production image build multi-stage
+docker build . -t cs-nginx-multistage-prod -f Dockerfile --target prod
 ```
 
 This will create the custom nginx image and pull-in/install the necessary dependencies.
@@ -29,8 +35,17 @@ your host. In this example, we simply map port 8080 of the host to
 port 80 of the Docker (or whatever port was exposed in the Dockerfile):
 
 ```sh
-docker run -p 8080:80 --restart=always -itd  --name nginx-custom --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-enabled/,destination=/etc/nginx/sites-enabled cs-nginx
+#developement container
+docker run -p 8080:80 --restart=always -itd  --name nginx-dev --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-enabled/,destination=/etc/nginx/sites-enabled cs-nginx-dev
 
+#developement container multi-stage
+docker run -p 8080:80 --restart=always -itd  --name nginx-dev-multistage --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-enabled/,destination=/etc/nginx/sites-enabled cs-nginx-dev-multistage
+
+#production container
+docker run -p 8080:80 --restart=always -itd  --name nginx-prod --mount type=bind,source=./logs/,destination=/var/log/nginx/ cs-nginx-prod
+
+#production container multi-stage
+docker run -p 8080:80 --restart=always -itd  --name nginx-prod-multistage --mount type=bind,source=./logs/,destination=/var/log/nginx/ cs-nginx-prod-multistage
 ```
 
 Verify the deployment by navigating to your server address in
