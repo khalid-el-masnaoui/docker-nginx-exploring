@@ -1,11 +1,15 @@
-# Nginx container custom images
+# NGINX container custom images
 
 ## _Custom nginx images for development and production_
 
 Exploring docker by creating custom nginx images for development 
 and production, seprately as well as usinga  multi-stage build
 
-## Docker
+## NGINX Configurations :gear:
+
+The Nginx images under this repository are all using default configurations.
+
+## Docker :hammer_and_wrench:
 By default, the Docker will expose ports 80/tcp and 443/tcp, so change this within the
 Dockerfile if necessary. When ready, simply use the Dockerfile to
 build the image.
@@ -54,3 +58,4 @@ your preferred browser.
 ```sh
 127.0.0.1:8080
 ```
+
