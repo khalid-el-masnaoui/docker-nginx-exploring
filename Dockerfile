@@ -3,12 +3,11 @@ FROM nginx:latest AS prod
 SHELL ["/bin/bash", "-c"]
 
 RUN chmod 1777 /tmp
-RUN chown -R www-data:www-data /var/log/nginx
 RUN  apt-get update -y && apt-get install -y procps 
 
-#ADD user www-data
-RUN (id -u www-data &> /dev/null || useradd www-data) && (groups www-data | grep -qw www-data || (groupadd www-data &&  usermod -a -G www-data www-data))
-#USER www-data
+#add user and group
+RUN groupadd -f www-data \
+    && (id -u www-data &> /dev/null || useradd -G www-data www-data -D)
 
 #ADD directories
 RUN mkdir /etc/nginx/sites-available && mkdir /etc/nginx/sites-enabled
@@ -25,12 +24,19 @@ EXPOSE 443/tcp
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"] 
 
-#Define mountable directories.
-VOLUME ["/var/log/nginx"]
-
+# drop symlinks
+RUN unlink /var/log/nginx/access.log
+RUN unlink /var/log/nginx/error.log
 
 #-----------------
 FROM prod as dev
+
+#assign the created user same UID AND GUID OF the dev env for the mounted dir owner
+ARG UID
+ARG GID
+
+RUN usermod -u $UID www-data
+RUN groupmod -g $GID www-data
 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/var/log/nginx", "/var/www/html"]
