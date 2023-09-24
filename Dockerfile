@@ -15,7 +15,7 @@ RUN mkdir /etc/nginx/sites-available && mkdir /etc/nginx/sites-enabled
 
 COPY configurations/nginx.conf /etc/nginx/nginx.conf
 COPY configurations/sites-available /etc/nginx/sites-available
-COPY src/ /var/www/html/
+COPY --chown=www-data:www-data src/ /var/www/html/
  
 #ADD sumbolic linlk
 RUN  ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/  
