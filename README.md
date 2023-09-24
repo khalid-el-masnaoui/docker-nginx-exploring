@@ -16,14 +16,15 @@ build the image.
 
 ```sh
 cd docker-nginx-exploring
-#create logs directory since it is mounted to the container
+#create logs directory since it is mounted to the container for development environment
 mkdir logs
+touch logs/access.log && touch logs/error.logs
 
 #developement image build
-docker build . -t cs-nginx-dev -f Dockerfile.dev 
+docker build . -t cs-nginx-dev -f Dockerfile.dev --build-arg="UID=$(id -u)" --build-arg="GID=$(id -g)"
 
 #developement image build multi-stage
-docker build . -t cs-nginx-dev-multistage -f Dockerfile --target dev
+docker build . -t cs-nginx-dev-multistage -f Dockerfile --target dev --build-arg="UID=$(id -u)" --build-arg="GID=$(id -g)"
 
 #production image build
 docker build . -t cs-nginx-prod -f Dockerfile.prod 
