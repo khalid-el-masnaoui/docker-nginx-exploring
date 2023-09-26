@@ -16,7 +16,7 @@ build the image.
 
 ```sh
 cd docker-nginx-exploring
-#create logs directory since it is mounted to the container for development environment
+#create logs directory since it is mounted to the container (or you can use --volume instead of --mount option and the logs folder will be created automatically on the local host)
 mkdir logs
 
 #developement image build
