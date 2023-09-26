@@ -9,6 +9,13 @@ RUN  apt-get update -y && apt-get install -y procps
 RUN groupadd -f www-data \
     && (id -u www-data &> /dev/null || useradd -G www-data www-data -D)
 
+#assign the created user same UID AND GUID OF the host for the mounted dir owner
+ARG UID
+ARG GID
+
+RUN usermod -u $UID www-data
+RUN groupmod -g $GID www-data
+
 #ADD directories
 RUN mkdir /etc/nginx/sites-available && mkdir /etc/nginx/sites-enabled
 
@@ -21,7 +28,6 @@ RUN  ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
 
 EXPOSE 80/tcp
 EXPOSE 443/tcp 
-
 
 # drop symlinks
 RUN unlink /var/log/nginx/access.log
@@ -40,13 +46,6 @@ CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 
 #-----------------
 FROM prod as dev
-
-#assign the created user same UID AND GUID OF the dev env for the mounted dir owner
-ARG UID
-ARG GID
-
-RUN usermod -u $UID www-data
-RUN groupmod -g $GID www-data
 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/var/log/nginx", "/var/www/html"]
