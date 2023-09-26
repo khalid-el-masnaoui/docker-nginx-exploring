@@ -22,11 +22,21 @@ RUN  ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/
 EXPOSE 80/tcp
 EXPOSE 443/tcp 
 
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"] 
 
 # drop symlinks
 RUN unlink /var/log/nginx/access.log
 RUN unlink /var/log/nginx/error.log
+
+RUN chown -R www-data:www-data /var/log/nginx && \
+    chown -R www-data:www-data /etc/nginx && \
+    chown -R www-data:www-data /var/cache/nginx && \
+    install  -o www-data -g www-data /dev/null /var/run/nginx.pid
+    
+WORKDIR /var/www/html    
+
+USER www-data
+
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"] 
 
 #-----------------
 FROM prod as dev
