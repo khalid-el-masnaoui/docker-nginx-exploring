@@ -36,6 +36,7 @@ RUN unlink /var/log/nginx/error.log
 RUN chown -R www-data:www-data /var/log/nginx && \
     chown -R www-data:www-data /etc/nginx && \
     chown -R www-data:www-data /var/cache/nginx && \
+    chown -R www-data:www-data /var/www && \
     install  -o www-data -g www-data /dev/null /var/run/nginx.pid
     
 WORKDIR /var/www/html    
