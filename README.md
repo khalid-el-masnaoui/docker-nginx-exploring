@@ -4,6 +4,7 @@
 
 Exploring docker by creating custom nginx images for development 
 and production, seprately as well as usinga  multi-stage build. And mapping the container user UID with the host UID to make shared files (via volumes) accessibles.
+The nginx service is running as a non-root (www-data user).
 
 ## NGINX Configurations :gear:
 
