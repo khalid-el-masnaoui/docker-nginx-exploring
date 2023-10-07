@@ -51,5 +51,5 @@ CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 FROM prod as dev
 
 # Define mountable directories.
-VOLUME ["/etc/nginx/sites-enabled", "/var/log/nginx", "/var/www/html"]
+VOLUME ["/etc/nginx/sites-available", "/var/log/nginx", "/var/www/html"]
 
