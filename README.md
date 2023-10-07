@@ -39,10 +39,10 @@ port 80 of the Docker (or whatever port was exposed in the Dockerfile):
 
 ```sh
 #developement container
-docker run -p 8080:80 --restart=always -itd  --name nginx-dev --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-enabled/,destination=/etc/nginx/sites-enabled cs-nginx-dev
+docker run -p 8080:80 --restart=always -itd  --name nginx-dev --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-available/,destination=/etc/nginx/sites-available cs-nginx-dev
 
 #developement container multi-stage
-docker run -p 8080:80 --restart=always -itd  --name nginx-dev-multistage --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-enabled/,destination=/etc/nginx/sites-enabled cs-nginx-dev-multistage
+docker run -p 8080:80 --restart=always -itd  --name nginx-dev-multistage --mount type=bind,source=./logs/,destination=/var/log/nginx/ --mount type=bind,source=./src/,destination=/var/www/html --mount type=bind,source=./configurations/sites-available/,destination=/etc/nginx/sites-available cs-nginx-dev-multistage
 
 #production container
 docker run -p 8080:80 --restart=always -itd  --name nginx-prod --mount type=bind,source=./logs/,destination=/var/log/nginx/ cs-nginx-prod
